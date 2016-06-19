@@ -13,12 +13,13 @@
     <link href="css/global.css" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
     <script src="lib/bootstrap/js/bootstrap.min.js"></script>
+    <script src="lib/bootstrap/js/bootstrap.js"></script>
     <title>Clunia Viewer</title>
 </head>
 <body>
     <?php
         include('header.php');
-        if(!isset($_SESSION['user'])){
+        if(!isset($_SESSION['user_id'])){
             include('signin.php');
         } else {
             $user_check = $_SESSION['user_id'];

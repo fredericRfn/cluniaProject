@@ -1,5 +1,6 @@
 body, html {
     height: 100%;
+    min-height: 300px;
 }
 
 .footer {
@@ -28,6 +29,11 @@ body, html {
     padding-top: 5%;
 }
 
+
+.views {
+height: 100%
+}
+
 #login {
     height: 100%;
     background-image: url(clunia.jpg);
@@ -44,7 +50,60 @@ body, html {
     padding-right: 40px;
 }
 
+#properties {
+    background-color: rgb(222, 222, 222);
+    background-size: 100%;
+    border-right: 2px solid #339944;
+    height: 100%;
+    padding-bottom: 10px;
+    padding-top: 10px;
+    padding-left: 40px;
+    padding-right: 40px;
+}
+
+#dashboard {
+    height: 100%;
+    padding-bottom: 10px;
+    padding-top: 10px;
+    padding-left: 40px;
+    padding-right: 40px;
+}
+
 h1 {
     text-align: center;
     margin-bottom: 25px;
+}
+
+#title {
+    font-size: 30px;
+    font-weight: bold;
+    margin-top: 10px;
+    margin-bottom: 10px; 
+    text-align: center;
+}
+
+#description {
+    font-size: 16px;
+    margin-top: 10px;
+    margin-bottom: 10px; 
+}
+
+.title {
+    background-color: #DDDDDD;
+    font-size: 20px;
+    font-weight: bold; 
+}
+
+.description {
+    font-size: 16px;
+    margin-bottom: 10px; 
+}
+
+.graph {
+    padding: 10px;
+}
+
+.graphbox {
+    padding-left: 15px;
+    padding-right: 15px;
 }
