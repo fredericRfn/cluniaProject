@@ -1,10 +1,6 @@
 <?php
-   include('config.php');
-   session_start();
-   $user_check = $_SESSION['login_user'];
-   $ses_sql = mysqli_query($db,"select username from admin where username = '$user_check' ");
-   $row = mysqli_fetch_array($ses_sql,MYSQLI_ASSOC);
-   $login_session = $row['username'];
+    include('config.php');
+    session_start();
 ?>
 
 <!DOCTYPE html>
@@ -15,19 +11,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="css/global.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="lib/bootstrap/js/bootstrap.min.js"></script>
     <title>Clunia Viewer</title>
 </head>
 <body>
-    <div class="container">
     <?php
-       include('header.php');
-       if(!isset($_SESSION['login_user'])){
-          include('signin.php');
-       } else {
-          include('home.php');
-       }
-       include('footer.php');
+        include('header.php');
+        if(!isset($_SESSION['user'])){
+            include('signin.php');
+        } else {
+            $user_check = $_SESSION['user'];
+            $conn=new mysqli(DB_SERVER,DB_USERNAME,DB_PASSWORD,DB_DATABASE);
+            $sql = "SELECT id FROM Users WHERE id = '$user_check' ";
+            $result = $conn->query($sql);
+            if ($result->num_rows > 0) {
+                include('home.php');
+            } else {
+                session_destroy();
+                include('signin.php');
+            }
+        }
+        include('footer.php');
     ?>
-    </div>
 </body>
 </html>
