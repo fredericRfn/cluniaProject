@@ -21,7 +21,7 @@
         if(!isset($_SESSION['user'])){
             include('signin.php');
         } else {
-            $user_check = $_SESSION['user'];
+            $user_check = $_SESSION['user_id'];
             $conn=new mysqli(DB_SERVER,DB_USERNAME,DB_PASSWORD,DB_DATABASE);
             $sql = "SELECT id FROM Users WHERE id = '$user_check' ";
             $result = $conn->query($sql);

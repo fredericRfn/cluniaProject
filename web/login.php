@@ -16,7 +16,8 @@ $result = $conn->query($sql);
 
 if ($result->num_rows > 0) {
 	$row = $result->fetch_assoc();
-	$_SESSION['user'] = $row['id'];
+	$_SESSION['user_id'] = $row['id'];
+	$_SESSION["username"] = $row['username'];
 	echo("Success-id\n");	
 	echo($row['id']);
 	header("Location: index.php");
