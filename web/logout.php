@@ -1,7 +1,6 @@
 <?php
    session_start();
-   
    if(session_destroy()) {
-      header("Location: signin.php");
+      header("Location: index.php");
    }
 ?>
