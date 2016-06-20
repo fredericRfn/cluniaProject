@@ -1,11 +1,6 @@
-<script>
-    $(function() {
-      $("#navbar-collapse-target > ul.nav.navbar-nav.items").append("<li><a href='user.php'>Mi perfil</a></li>");
-      $("#navbar-collapse-target > ul.nav.navbar-nav.items").append("<li><a href='logout.php'>Desconectarse</a></li>");
-      $("body > nav > div > div.navbar-header > a.navbar-brand").empty().text("Clunia Viewer - !Bienvenido!")
-    });
-</script>
-
+<?php
+     include("redirect.php");
+?>
 
 <div class="container" style="padding-left:0px; padding-right:0px; padding-top: 50px;">
 		<div class="col-md-3" id="properties">
