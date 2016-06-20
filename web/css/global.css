@@ -13,7 +13,7 @@ body, html {
 .container {
     width: 100%;
     margin: 0;
-    height: 95%;
+    height: 100%;
 }
 
 .navbar-brand
@@ -35,21 +35,31 @@ height: 100%
 }
 
 #login {
+    padding-top: 5%;
     height: 100%;
-    background-image: url(clunia.jpg);
-    background-size: 100%;
 }
 
-#login-form {
+.logform {
     background-color: rgba(255, 255, 255, 0.9);
     border: 2px solid #339944;
     border-radius: 20px;
+    margin-left: auto;
+    margin-right: auto;
     padding-bottom: 10px;
     padding-top: 10px;
     padding-left: 40px;
     padding-right: 40px;
 }
 
+#login-form{
+    margin-top: 5%;
+    width: 40%;
+}
+
+#signup-form{
+    margin-top: 3%;
+    width: 60%;
+}
 #properties {
     background-color: rgb(222, 222, 222);
     background-size: 100%;

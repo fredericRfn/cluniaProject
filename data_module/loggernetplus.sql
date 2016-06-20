@@ -45,6 +45,7 @@ CREATE TABLE Users (
 	username	VARCHAR(255) UNIQUE NOT NULL,
 	email		VARCHAR(255) UNIQUE NOT NULL,
 	password 	VARCHAR(255),
+	entity	 	VARCHAR(255),
 	digest		VARCHAR(255),
 	role		INTEGER,
 	PRIMARY KEY(id)

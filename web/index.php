@@ -33,7 +33,7 @@
                 include('signin.php');
             }
         }
-        include('footer.php');
+
     ?>
 </body>
 </html>
