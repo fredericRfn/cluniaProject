@@ -1,27 +1,17 @@
 /* SQL script creation database */
-DROP DATABASE loggernetplus IF EXISTS;
+DROP DATABASE IF EXISTS loggernetplus;
 CREATE DATABASE loggernetplus;
 USE loggernetplus;
 
 /* Package data */
-CREATE TABLE Stations (
-	id		BIGINT AUTO_INCREMENT,
-	ip		VARCHAR(255) UNIQUE NOT NULL,
-	port		INTEGER,
-	name		VARCHAR(255) UNIQUE NOT NULL,
-	PRIMARY KEY(id)
-);
-
 CREATE TABLE Dataloggers (
 	id		BIGINT AUTO_INCREMENT,
-	station_id	BIGINT,
 	name		VARCHAR(255),
 	processor	VARCHAR(255),
 	model		VARCHAR(255),
 	reference	VARCHAR(255),
 	detected_at	TIMESTAMP,
-	PRIMARY KEY(id),
-	FOREIGN KEY(station_id) REFERENCES Stations.id
+	PRIMARY KEY(id)
 );
 
 CREATE TABLE Sensors (
@@ -32,26 +22,20 @@ CREATE TABLE Sensors (
 	datalogger_id	BIGINT,
 	detected_at	TIMESTAMP,
 	PRIMARY KEY(id),
-	FOREIGN KEY(datalogger_id) REFERENCES Dataloggers.id
+	FOREIGN KEY(datalogger_id) REFERENCES Dataloggers(id)
 );
 
-CREATE TABLE Rows (
-	id		BIGINT AUTO_INCREMENT,
+CREATE TABLE Datarows (
+	id		BIGINT,
 	datalogger_id	BIGINT,
 	count_infile	BIGINT,
-	datestamp	TIMESTAMP,
-	PRIMARY KEY(id),
-	FOREIGN KEY(sensor_id) REFERENCES Sensors.id,
-	FOREIGN KEY(datalogger_id) REFERENCES Dataloggers.id
+	measured_at	DATE
 );
 
 CREATE TABLE Data (
-	row_id		BIGINT,
+	datarow_id	BIGINT,
 	sensor_id	BIGINT,
-	value		INTEGER
-	PRIMARY KEY(row_id, sensor_id),
-	FOREIGN KEY(row_id) REFERENCES Rows.id,
-	FOREIGN KEY(sensor_id) REFERENCES Sensors.id,
+	data		REAL
 );
 
 
@@ -73,7 +57,7 @@ CREATE TABLE Dashboards (
 	title		VARCHAR(255),
 	description	TEXT,
 	PRIMARY KEY(id),
-	FOREIGN KEY(user_id) REFERENCES Users.id
+	FOREIGN KEY(user_id) REFERENCES Users(id)
 );
 
 CREATE TABLE ChartType (
@@ -95,9 +79,9 @@ CREATE TABLE Chart (
 	y		INTEGER,
 	width		INTEGER,
 	length		INTEGER,
-	parameters	VARCHAR(255), // Will be a table one day
+	parameters	VARCHAR(255), /* Will be a table one day */
 	type		BIGINT,
 	PRIMARY KEY(id),
-	FOREIGN KEY(dashboard_id) REFERENCES Dashboards.id,
-	FOREIGN KEY(type) REFERENCES ChartType.id
+	FOREIGN KEY(dashboard_id) REFERENCES Dashboards(id),
+	FOREIGN KEY(type) REFERENCES ChartType(id)
 );
