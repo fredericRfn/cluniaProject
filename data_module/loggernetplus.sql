@@ -57,6 +57,7 @@ CREATE TABLE Dashboards (
 	display_order	INTEGER,
 	title		VARCHAR(255),
 	description	TEXT,
+	is_default	INTEGER,
 	PRIMARY KEY(id),
 	FOREIGN KEY(user_id) REFERENCES Users(id)
 );
@@ -71,16 +72,18 @@ CREATE TABLE ChartType (
 	PRIMARY KEY(id)
 );
 
-CREATE TABLE Chart (
+CREATE TABLE Charts (
 	id		BIGINT AUTO_INCREMENT,
 	dashboard_id	BIGINT,
 	title		VARCHAR(255),
 	description	TEXT,
-	x		INTEGER,
-	y		INTEGER,
+	row_num		INTEGER,
+	column_num      INTEGER,
 	width		INTEGER,
-	length		INTEGER,
-	parameters	VARCHAR(255), /* Will be a table one day */
+	height		INTEGER,
+	data_from	DATE,
+	data_to		DATE,
+	sensor_id	BIGINT, /* Will be a table one day */
 	type		BIGINT,
 	PRIMARY KEY(id),
 	FOREIGN KEY(dashboard_id) REFERENCES Dashboards(id),
