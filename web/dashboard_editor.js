@@ -214,7 +214,7 @@ function add_chart() {
 }
 
 function remove_chart() {
-    allJSONs[dashboardNumber]["charts"].splice(currentChart,1);
+    allJSONs= allJSONs[dashboardNumber]["charts"].splice(currentChart,1);
     currentChart = allJSONs[dashboardNumber]["charts"].length - 1;  
     switchDashboard(dashboardNumber);
 }
