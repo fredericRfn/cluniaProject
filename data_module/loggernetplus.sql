@@ -58,11 +58,10 @@ CREATE TABLE Dashboards (
 	title		VARCHAR(255),
 	description	TEXT,
 	is_default	INTEGER,
-	PRIMARY KEY(id),
-	FOREIGN KEY(user_id) REFERENCES Users(id)
+	PRIMARY KEY(id)
 );
 
-CREATE TABLE ChartType (
+CREATE TABLE ChartTypes (
 	id		BIGINT AUTO_INCREMENT,
 	name		VARCHAR(255),
 	description	VARCHAR(255),
@@ -83,9 +82,11 @@ CREATE TABLE Charts (
 	height		INTEGER,
 	data_from	DATE,
 	data_to		DATE,
-	sensor_id	BIGINT, /* Will be a table one day */
+	sensor_id	BIGINT,
 	type		BIGINT,
 	PRIMARY KEY(id),
 	FOREIGN KEY(dashboard_id) REFERENCES Dashboards(id),
-	FOREIGN KEY(type) REFERENCES ChartType(id)
+	FOREIGN KEY(type) REFERENCES ChartTypes(id)
 );
+
+INSERT INTO ChartTypes(name, description, chartJS_type, min_params,max_params) VALUES ('Tabla','Presenta los datos brutos en tabla',NULL,1,5);

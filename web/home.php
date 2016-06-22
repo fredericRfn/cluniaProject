@@ -12,20 +12,20 @@
             </div> 		    
             <div class="row" id="dashboard-bar">
                 <div class="col-md-4 inlined">
-                    <button class="btn btn-block btn-default" onclick="newDashboard()">Añadir</button>
+                    <button class="btn btn-block btn-default" id="add_dashboard" onclick="newDashboard()">Añadir</button>
                 </div>
                 <div class="col-md-4 inlined">
-                    <button class="btn btn-block btn-default" onclick="exportToDatabase()">Guardar</button>
+                    <button class="btn btn-block btn-default" id="save_dashboard" onclick="exportToDatabase()">Guardar</button>
                 </div>
                 <div class="col-md-4 inlined">
-                    <button class="btn btn-block btn-default">Eliminar</button> 
+                    <button class="btn btn-block btn-default" id="remove_dashboard" onclick="removeFromDatabase()">Eliminar</button> 
                 </div>
             </div>
             <div class="row">
-                <label>Ver el dashboard: </label><select class="form-control" id="dashboard_selector"></select>  
+                <label>Ver el dashboard: </label><select class="form-control" id="dashboard_selector" onclick="switchDashboardFromSelector()"></select>  
             </div>
             <div class="row">
-                <label><input type ="checkbox" name="role" value="1">Dashboard por defecto</label>  
+                <label><input type ="checkbox" name="role" value="1" id='#dashboard_is_default' oninput="refreshDashboardParam('is_default', '#dashboard_is_default')">Dashboard por defecto</label>  
             </div>
             <div class="row">
                 <div class="col-md-4 inlined">
@@ -33,19 +33,19 @@
                     <label>Descripción</label>
                 </div>
                 <div class="col-md-8 inlined">
-                    <input type ="text" class ="form-control" name="title" id="dashboard_title">
-                    <input type ="text" class ="form-control" name="description" id="dashboard_description">
+                    <input type ="text" class ="form-control" name="title" id="dashboard_title" oninput="refreshDashboardTitle()">
+                    <input type ="text" class ="form-control" name="description" id="dashboard_description" oninput="refreshDashboardParam('description','#dashboard_description')">
                 </div>
             </div>	    
             <div class="row separator">
                 <label> Gráfica </label>  
             </div>
             <div class="row" id="graphics-bar">
-                <button class="btn btn-default">Añadir gráfica</button>
-                <button class="btn btn-default">Eliminar esta gráfica</button>  
+                <button class="btn btn-default" id="add_chart">Añadir gráfica</button>
+                <button class="btn btn-default" id="remove_chart">Eliminar esta gráfica</button>  
             </div>
             <div class="row">
-                <label>Gráficas del dashboard:</label><select class="form-control"></select>  
+                <label>Gráficas del dashboard:</label><select class="form-control" id="chart_selector"></select>  
             </div>
             <div class="row bordered"></div> 
             <div class="row">
@@ -54,8 +54,8 @@
                     <label>Descripción</label>
                 </div>
                 <div class="col-md-8 inlined">
-                    <input type ="text" class ="form-control" name="grtitle">
-                    <input type ="text" class ="form-control" name="grdescription">
+                    <input type ="text" class ="form-control" id="chart_title">
+                    <input type ="text" class ="form-control" id="chart_description">
                 </div>
             </div> 
             <div class="row">
@@ -63,7 +63,7 @@
                      <label>Tipo</label>
                 </div>
                 <div class="col-md-8 inlined">
-                     <select class="form-control"></select>  
+                     <select class="form-control" id="chartType_selector"></select>  
                 </div>
             </div>
             <div class="row">
@@ -72,16 +72,16 @@
                     <label>Anchura</label>
                 </div>
                 <div class="col-md-3 inlined">
-                    <input type ="number" class ="form-control" name="fila">
-                    <input type ="number" class ="form-control" name="anchura">
+                    <input type ="number" class ="form-control" id="chart_row">
+                    <input type ="number" class ="form-control" id="chart_width">
                 </div>
                 <div class="col-md-3 inlined">
                     <label>Columna</label>
                     <label>Altura</label>
                 </div>
                 <div class="col-md-3 inlined">
-                    <input type ="number" class ="form-control" name="fila">
-                    <input type ="number" class ="form-control" name="anchura">
+                    <input type ="number" class ="form-control" id="chart_column">
+                    <input type ="number" class ="form-control" id="chart_height">
                 </div>
             </div>
             <div class="row bordered"></div> 
@@ -90,7 +90,7 @@
                     <label>Desde</label>
                 </div>
                 <div class="col-md-8 inlined">
-                    <input type ="number" class ="form-control" name="from">
+                    <input type ="text" class ="form-control" id="chart_from">
                 </div>
             </div>
             <div class="row">
@@ -98,11 +98,11 @@
                     <label>Hasta</label>
                 </div>
                 <div class="col-md-8 inlined">
-                    <input type ="number" class ="form-control" name="to">
+                    <input type ="text" class ="form-control" id="chart_to">
                 </div>
             </div> 
            <div class="row">
-                <label>Sensor del cual imprimir datos:</label><select class="form-control"></select>
+                <label>Sensor del cual imprimir datos:</label><select class="form-control" id="sensor_selector"></select>
            </div>
 		</div>
 		<div class="col-md-9" id="dashboard"> 

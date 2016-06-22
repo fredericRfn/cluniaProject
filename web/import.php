@@ -10,6 +10,8 @@
     $sql = "SELECT id FROM Users WHERE id=".$user_check;
     $result = $conn->query($sql);
     $dashboards = array();
+    $sensors = array();
+    $chartTypes = array();
     if ($result->num_rows > 0) {
         $sqlDashboard = "SELECT * FROM Dashboards WHERE user_id=".$user_check ;
         $resultDashboard = $conn->query($sqlDashboard);
@@ -19,8 +21,19 @@
 	    $dashboard = new Dashboard($dashboardRow, $resultCharts);
             array_push($dashboards, $dashboard);
         }
+        $sqlSensors = "SELECT * FROM Sensors";
+        $resultSensors = $conn->query($sqlSensors);
+        while ($sensorRow = $resultSensors->fetch_assoc()) {
+	    $sensor = new Sensor($sensorRow);
+            array_push($sensors, $sensor);
+        }
+        $sqlChartTypes = "SELECT * FROM ChartTypes";
+        $resultChartType = $conn->query($sqlChartTypes);
+        while ($chartTypeRow = $resultChartType->fetch_assoc()) {
+	    $chartType = new ChartType($chartTypeRow);
+            array_push($chartTypes, $chartType);
+        }
     }
-    $conn->close();          
-    //header('Content-type: application/json');
-    echo(json_encode(array("dashboards"=>$dashboards)));
+    $conn->close();
+    echo(json_encode(array("sensors"=>$sensors, "chartTypes"=>$chartTypes, "dashboards"=>$dashboards)));
 ?>

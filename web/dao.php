@@ -1,5 +1,6 @@
 <?php
     class Chart {
+        var $id;
         var $title;
         var $description;
         var $type;
@@ -11,6 +12,7 @@
         var $to;
         var $sensor_id;
         function Chart($sqlRow) {
+            $this->id=$sqlRow['id'];
             $this->title=$sqlRow['title'];
             $this->description=$sqlRow['description'];
             $this->type=$sqlRow['type'];
@@ -24,6 +26,7 @@
         }
     }
     class Dashboard {
+        var $id;
         var $title;
         var $description;
         var $number;
@@ -31,6 +34,7 @@
         var $is_default;
         var $charts = array();
         function Dashboard($sqlRow, $chartsSqlRow) {
+            $this->id=$sqlRow['id'];
             $this->title=$sqlRow['title'];
             $this->description=$sqlRow['description'];
             $this->number=$sqlRow['display_order'];
@@ -41,6 +45,32 @@
                 $tmp=new Chart($row);
                 array_push($this->charts, $tmp);
             }
+        }
+    }
+    class Sensor {
+        var $id;
+        var $datalogger_id;
+        var $name;
+        var $unit;
+        var $operation;
+        var $detected_at;
+        function Sensor($sqlRow) {
+            $this->id=$sqlRow['id'];
+            $this->datalogger_id=$sqlRow['datalogger_id'];
+            $this->name=$sqlRow['name'];
+            $this->unit=$sqlRow['unit'];
+            $this->operation=$sqlRow['operation'];
+            $this->detected_at=$sqlRow['detected_at'];
+        }
+    }
+    class ChartType {
+        var $id;
+        var $name;
+        var $description;
+        function ChartType($sqlRow) {
+            $this->id=$sqlRow['id'];
+            $this->name=$sqlRow['name'];
+            $this->description=$sqlRow['description'];
         }
     }
 ?>
