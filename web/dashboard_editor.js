@@ -14,6 +14,7 @@ function exportToDatabase(redirect) {
         url: "store_dashboard.php", //Relative or absolute path to response.php file
         data : 'json=' + JSON.stringify(allJSONs[dashboardNumber]),
         success: function(msg) {
+            console.log(msg);
             importFromDatabase(redirect);
         }
     });      
@@ -207,9 +208,9 @@ function refreshDashboardParam(attribute, selector) {
 }
 
 function add_chart() {
-    alert(dashboardNumber);
-    allJSONs[dashboardNumber]["charts"].push(JSON.parse("{\"title\":\"Nueva Gráfica\",\"description\":\"Comenta tu gráfica\",\"row\":1,\"columna\":1,\"width\":12,\"height\":5, \"from\":\"2015-01-01\",\"to\":\"2016-01-01\",\"type\":1, \"sensor_id\":1}"));
-    currentChart = allJSONs[dashboardNumber]["charts"].length;   
+    allJSONs[dashboardNumber]["charts"].push(JSON.parse("{\"title\":\"Nueva Gráfica\",\"description\":\"Comenta tu gráfica\",\"row\":1,\"column\":1,\"width\":12,\"height\":5, \"from\":\"2015-01-01\",\"to\":\"2016-01-01\",\"type\":1, \"sensor_id\":1}"));
+    currentChart = allJSONs[dashboardNumber]["charts"].length;
+    alert(JSON.stringify(allJSONs[dashboardNumber]["charts"]));   
     switchDashboard(dashboardNumber);
 }
 
@@ -234,7 +235,6 @@ function refreshDashboard() {
         html=  "<div class='row' id='title'>\n" + currentJSON["title"] + "\n</div>\n";
         html= html + "<div class='row' id='description'>\n" + currentJSON["description"] + "\n</div>\n\n";  
         var charts = currentJSON["charts"];
-        console.log(html);
         var arrayLength = charts.length;
         if (arrayLength>0) {
             var currentRow = 0;

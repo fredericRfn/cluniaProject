@@ -37,11 +37,11 @@
                 $sqlCharts1 = "DELETE FROM Charts WHERE dashboard_id=".$dashboard_id;
                 $result = $conn->query($sqlCharts1);                
                 for ($i = 0 ; $i < count($charts); $i++) {
-                    $c = json_decode($charts[$i],true);
-                    $sqlCharts2 = "INSERT INTO Charts(dashboard_id,title,description,row,column,height,width,data_from,data_to,sensor_id,type) VALUES (".$dashboard_id."','".$c['title']."','".$c['description']."',".$c['row'].",".$c['column'].",".$c['height'].",".$c['width'].",'".$c['to']."','".$c['from']."',".$c['type'].")";
+                    $c = $charts[$i];
+                    $sqlCharts2 = "INSERT INTO Charts(dashboard_id,title,description,row_num,column_num,height,width,data_from,data_to,sensor_id,type) VALUES (".$dashboard_id.",'".$c['title']."','".$c['description']."',".$c['row'].",".$c['column'].",".$c['height'].",".$c['width'].",'".$c['to']."','".$c['from']."',".$c['sensor_id'].",".$c['type'].")";
                     $result = $conn->query($sqlCharts2);
                 }
-		$msg=$dashboard_id;
+		$msg=$sqlCharts2;
         } else {
              $msg = 0;
         }    
