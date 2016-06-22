@@ -187,7 +187,7 @@ function refreshParameters() {
         $("#chart_from").val(allJSONs[dashboardNumber]["charts"][currentChart]["from"]);
         $("#chart_to").val(allJSONs[dashboardNumber]["charts"][currentChart]["to"]);
         $("#sensor_selector").val(allJSONs[dashboardNumber]["charts"][currentChart]["sensor_id"]-1);
-        $("#chartType_selector").val(allJSONs[dashboardNumber]["charts"][currentChart]["chartType"] - 1);
+        $("#chartType_selector").val(allJSONs[dashboardNumber]["charts"][currentChart]["type"] - 1);
     }
 }
 
@@ -205,6 +205,14 @@ function refreshDashboardParam(attribute, selector) {
     allJSONs[dashboardNumber][attribute] = $(selector).val();
     refreshDashboard();
 }
+
+function add_chart() {
+    alert(dashboardNumber);
+    allJSONs[dashboardNumber]["charts"].push(JSON.parse("{\"title\":\"Nueva Gráfica\",\"description\":\"Comenta tu gráfica\",\"row\":1,\"columna\":1,\"width\":12,\"height\":5, \"from\":\"2015-01-01\",\"to\":\"2016-01-01\",\"type\":1, \"sensor_id\":1}"));
+    currentChart = allJSONs[dashboardNumber]["charts"].length;   
+    switchDashboard(dashboardNumber);
+}
+
 
 // FUNCTIONS USED TO DISPLAY THE DASHBOARD AND CONVERT JSON TO HTML
 

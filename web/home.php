@@ -22,7 +22,7 @@
                 </div>
             </div>
             <div class="row">
-                <label>Ver el dashboard: </label><select class="form-control" id="dashboard_selector" onclick="switchDashboardFromSelector()"></select>  
+                <label>Ver el dashboard: </label><select class="form-control" id="dashboard_selector" onchange="switchDashboardFromSelector()"></select>  
             </div>
             <div class="row">
                 <label><input type ="checkbox" name="role" value="1" id='#dashboard_is_default' oninput="refreshDashboardParam('is_default', '#dashboard_is_default')">Dashboard por defecto</label>  
@@ -41,7 +41,7 @@
                 <label> Gráfica </label>  
             </div>
             <div class="row" id="graphics-bar">
-                <button class="btn btn-default" id="add_chart">Añadir gráfica</button>
+                <button class="btn btn-default" id="add_chart" onclick="add_chart()">Añadir gráfica</button>
                 <button class="btn btn-default" id="remove_chart">Eliminar esta gráfica</button>  
             </div>
             <div class="row">

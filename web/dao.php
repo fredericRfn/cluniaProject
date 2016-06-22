@@ -1,6 +1,6 @@
 <?php
     class Chart {
-        var $id;
+        //var $id;
         var $title;
         var $description;
         var $type;
@@ -12,7 +12,7 @@
         var $to;
         var $sensor_id;
         function Chart($sqlRow) {
-            $this->id=$sqlRow['id'];
+            //$this->id=$sqlRow['id'];
             $this->title=$sqlRow['title'];
             $this->description=$sqlRow['description'];
             $this->type=$sqlRow['type'];
