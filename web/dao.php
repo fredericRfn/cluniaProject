@@ -37,8 +37,8 @@
             $this->user_id=$sqlRow['user_id'];
             $this->is_default=$sqlRow['is_default'];
 
-            for ($i = 0; $i < count($chartsSqlRow) ; $i++) {
-                $tmp=new Chart($chartsSqlRow[$i]);
+            while($row = $chartsSqlRow->fetch_assoc()) {
+                $tmp=new Chart($row);
                 array_push($this->charts, $tmp);
             }
         }
