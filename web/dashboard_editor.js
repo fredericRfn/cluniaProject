@@ -209,13 +209,13 @@ function refreshDashboardParam(attribute, selector) {
 
 function add_chart() {
     allJSONs[dashboardNumber]["charts"].push(JSON.parse("{\"title\":\"Nueva Gráfica\",\"description\":\"Comenta tu gráfica\",\"row\":1,\"column\":1,\"width\":12,\"height\":5, \"from\":\"2015-01-01\",\"to\":\"2016-01-01\",\"type\":1, \"sensor_id\":1}"));
-    currentChart = allJSONs[dashboardNumber]["charts"].length;  
+    currentChart = allJSONs[dashboardNumber]["charts"].length - 1;  
     switchDashboard(dashboardNumber);
 }
 
 function remove_chart() {
     allJSONs[dashboardNumber]["charts"].splice(currentChart,1);
-    currentChart = allJSONs[dashboardNumber]["charts"].length;  
+    currentChart = allJSONs[dashboardNumber]["charts"].length - 1;  
     switchDashboard(dashboardNumber);
 }
 
