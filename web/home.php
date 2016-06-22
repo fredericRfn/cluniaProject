@@ -42,7 +42,7 @@
             </div>
             <div class="row" id="graphics-bar">
                 <button class="btn btn-default" id="add_chart" onclick="add_chart()">Añadir gráfica</button>
-                <button class="btn btn-default" id="remove_chart">Eliminar esta gráfica</button>  
+                <button class="btn btn-default" id="remove_chart" onclick="remove_chart()">Eliminar esta gráfica</button>  
             </div>
             <div class="row">
                 <label>Gráficas del dashboard:</label><select class="form-control" id="chart_selector"></select>  
