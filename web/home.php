@@ -54,8 +54,8 @@
                     <label>Descripción</label>
                 </div>
                 <div class="col-md-8 inlined">
-                    <input type ="text" class ="form-control" id="chart_title">
-                    <input type ="text" class ="form-control" id="chart_description">
+                    <input type ="text" class ="form-control" id="chart_title" oninput="refreshChartParam('title', '#chart_title')">
+                    <input type ="text" class ="form-control" id="chart_description" oninput="refreshChartParam('description', '#chart_description')">
                 </div>
             </div> 
             <div class="row">
@@ -72,16 +72,16 @@
                     <label>Anchura</label>
                 </div>
                 <div class="col-md-3 inlined">
-                    <input type ="number" class ="form-control" id="chart_row">
-                    <input type ="number" class ="form-control" id="chart_width">
+                    <input type ="number" class ="form-control" id="chart_row" oninput="refreshChartParam('row', '#chart_row')">
+                    <input type ="number" class ="form-control" id="chart_width" oninput="refreshChartParam('width', '#chart_width')">
                 </div>
                 <div class="col-md-3 inlined">
                     <label>Columna</label>
                     <label>Altura</label>
                 </div>
                 <div class="col-md-3 inlined">
-                    <input type ="number" class ="form-control" id="chart_column">
-                    <input type ="number" class ="form-control" id="chart_height">
+                    <input type ="number" class ="form-control" id="chart_column" oninput="refreshChartParam('column', '#chart_column')">
+                    <input type ="number" class ="form-control" id="chart_height" oninput="refreshChartParam('height', '#chart_height')">
                 </div>
             </div>
             <div class="row bordered"></div> 
