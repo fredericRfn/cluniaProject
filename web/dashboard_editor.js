@@ -57,12 +57,9 @@ function switchDashboard(value) {
         currentChart = -1;
     }
     else {
-        if (allJSONs[dashboardNumber]["charts"].length == 0) {
+        if (allJSONs[dashboardNumber]["charts"].length <= currentChart) {
             currentChart = -1;
         }
-        else {
-            currentChart = 0;    
-        }    
     }
     refreshSelectors();
     refreshChartsSelectors();
@@ -214,7 +211,7 @@ function add_chart() {
 }
 
 function remove_chart() {
-    allJSONs= allJSONs[dashboardNumber]["charts"].splice(currentChart,1);
+    alert(JSON.stringify(allJSONs[dashboardNumber]["charts"].splice(currentChart,1)));
     currentChart = allJSONs[dashboardNumber]["charts"].length - 1;  
     switchDashboard(dashboardNumber);
 }
