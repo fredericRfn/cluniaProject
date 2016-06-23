@@ -236,7 +236,7 @@ function refreshChartParam(attribute, selector) {
 }
 
 function add_chart() {
-    allJSONs[dashboardNumber]["charts"].push(JSON.parse("{\"title\":\"Nueva Gráfica\",\"description\":\"Comenta tu gráfica\",\"row\":1,\"column\":1,\"width\":12,\"height\":100, \"from\":\"2015-01-01\",\"to\":\"2016-01-01\",\"type\":1, \"sensor_id\":1}"));
+    allJSONs[dashboardNumber]["charts"].push(JSON.parse("{\"title\":\"Nuevo\",\"description\":\"Un comentario\",\"row\":1,\"column\":1,\"width\":12,\"height\":100, \"from\":\"2015-01-01\",\"to\":\"2016-01-01\",\"type\":1, \"sensor_id\":1}"));
     currentChart = allJSONs[dashboardNumber]["charts"].length - 1;
     switchDashboard(dashboardNumber);
 }
@@ -252,6 +252,11 @@ function setChartSensor() {
     refreshDashboard();
 }
 
+function setChartType() {
+    allJSONs[dashboardNumber]["charts"][currentChart]["type"] = $("#chartType_selector").val();
+    refreshDashboard();
+}
+
 // FUNCTIONS USED TO DISPLAY THE DASHBOARD AND CONVERT JSON TO HTML
 
 function renderChart(chart, index) {
@@ -261,6 +266,10 @@ function renderChart(chart, index) {
     //STEP 2: Iterate until find the max
     //STEP 3: Put a limitation to the number of points plotted spacing the points regularly
     // (up to 50-100 points per graph would be nice)
+var idrc = "r"+chart["row"].toString() +"c" +chart["column"].toString();
+    $("#" + idrc).append("<div class='graphbox'><div class='title'>\n" + chart["title"] + "</div><div class='description'>\n" + chart["description"] + "</div>\n");
+ //   result = result + "<div class='graph'>\n" + graph_html + "</div>\n";
+
     if(chart["sensor_id"]>0) {  
         if(chart["type"]==1) {
             graph_html="<div><table><tr><th>Fecha</th><th>"+ sensors[chart['sensor_id']-1]['name'] + "</th></tr></table></div>";
@@ -277,9 +286,10 @@ function renderChart(chart, index) {
                 graph_html = graph_html + "</td><td>" + data_sensor[i]['y'] + "</td></tr>";
             }
             graph_html = graph_html + "</table></div>";
+            $("#" + idrc).append(graph_html);
         }
         if(chart["type"]==2) {
-           $("#dashboard").append("<canvas id='chart" + index +"' width='450' height='200'></canvas>");
+           $("#" + idrc).append("<canvas id='chart" + index.toString() +"' height:"+chart["height"].toString()+"px\" width:"+(100*chart["width"]).toString()+"px\"></canvas>");
           // Get the context of the canvas element we want to select
           var datachart = {
             labels: ["January", "February", "March", "April", "May", "June", "July"],
@@ -306,19 +316,13 @@ function renderChart(chart, index) {
               }
             ]
           };
-          var ctx = document.getElementById("chart").getContext("2d");
+          var ctx = document.getElementById("chart"+index.toString()).getContext("2d");
           // Instantiate a new chart using 'data' (defined below)
-          var chart = new Chart(ctx).Line(datachart);
-          graph_html=document.getElementById("chart" + index).prop('outerHTML');
-          $("#dashboard").empty();
+          var chartgr =new Chart(ctx , { type: "line", data: datachart });
+          graph_html=$("#chart" + index.toString()).prop('outerHTML');
         }
     }
-    var result = "<div class='graphbox'>\n";
-    result = result + "<div class='title'>\n" + chart["title"] + "</div>\n";
-    result = result + "<div class='description'>\n" + chart["description"] + "</div>\n";
-    result = result + "<div class='graph'>\n" + graph_html + "</div>\n";
-    result = result + "</div>";
-    return result;
+    $("#" + idrc).append("</div>");
 }
 function refreshDashboard() {
     $("#dashboard").empty();
@@ -342,8 +346,8 @@ function refreshDashboard() {
                     html= "<div class='col-md-" + charts[i]["width"].toString() + "' id='"+ idrc +"'></div>";
 		    $("#row"+charts[i]["row"].toString()).append(html);  
                 }
-                html = renderChart(charts[i],i);
-	 	$("#" + idrc).append(html);
+                renderChart(charts[i],i);
+
             }
         }
     }

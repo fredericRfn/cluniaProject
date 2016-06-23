@@ -14,6 +14,8 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
     <script src="lib/bootstrap/js/bootstrap.min.js"></script>
     <script src="lib/bootstrap/js/bootstrap.js"></script>
+    <script src="lib/moment.min.js"></script>
+    <script src="lib/Chart.min.js"></script>
     <title>Clunia Viewer</title>
 </head>
 <body>

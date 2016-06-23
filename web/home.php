@@ -63,7 +63,7 @@
                      <label>Tipo</label>
                 </div>
                 <div class="col-md-8 inlined">
-                     <select class="form-control" id="chartType_selector"></select>  
+                     <select class="form-control" id="chartType_selector" onchange="setChartType()"></select>  
                 </div>
             </div>
             <div class="row">
