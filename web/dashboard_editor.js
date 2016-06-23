@@ -313,7 +313,7 @@ function renderChart(chart, index) {
           $("#dashboard").empty();
         }
     }
-    var result = "<div class='graphbox' style='height:" + chart["height"] + "px'>\n";
+    var result = "<div class='graphbox'>\n";
     result = result + "<div class='title'>\n" + chart["title"] + "</div>\n";
     result = result + "<div class='description'>\n" + chart["description"] + "</div>\n";
     result = result + "<div class='graph'>\n" + graph_html + "</div>\n";
@@ -328,21 +328,22 @@ function refreshDashboard() {
     } else {
         var currentJSON = allJSONs[dashboardNumber];
         html=  "<div class='row' id='title'>\n" + currentJSON["title"] + "\n</div>\n";
-        html= html + "<div class='row' id='description'>\n" + currentJSON["description"] + "\n</div>\n\n";  
+        html= html + "<div class='row' style='flex-wrap: wrap;' id='description'>\n" + currentJSON["description"] + "\n</div>\n\n";  
         $("#dashboard").append(html);
         var charts = currentJSON["charts"];
         var arrayLength = charts.length;
         for (var i = 0; i < 12; i++) {  
-            $("#dashboard").append("<div class='row"+i+"'>\n</div>");
+            $("#dashboard").append("<div class='row' id='row"+i.toString()+"'>\n</div>");
         }
         if (arrayLength>0) {
-            for (var i = 0; i < arrayLength; i++) {                 
-                if($(charts[i]["column"]).length==0) {
-                    html= "<div class='col-md-" + charts[i]["width"] + "' id='r"+charts[i]["row"] +"c" +charts[i]["column"] +"'>\n</div>";
-                    $("#row"+charts[i]["row"]+"\"").append(html);  
+            for (var i = 0; i < arrayLength; i++) {
+                var idrc = "r"+charts[i]["row"].toString() +"c" +charts[i]["column"].toString();               
+                if($("#"+idrc).length==0) {
+                    html= "<div class='col-md-" + charts[i]["width"].toString() + "' id='"+ idrc +"'></div>";
+		    $("#row"+charts[i]["row"].toString()).append(html);  
                 }
                 html = renderChart(charts[i],i);
-	 	$("#r"+charts[i]["row"] +"c" +charts[i]["column"]+"\"").append(html);
+	 	$("#" + idrc).append(html);
             }
         }
     }
