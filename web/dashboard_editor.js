@@ -329,32 +329,21 @@ function refreshDashboard() {
         var currentJSON = allJSONs[dashboardNumber];
         html=  "<div class='row' id='title'>\n" + currentJSON["title"] + "\n</div>\n";
         html= html + "<div class='row' id='description'>\n" + currentJSON["description"] + "\n</div>\n\n";  
+        $("#dashboard").append(html);
         var charts = currentJSON["charts"];
         var arrayLength = charts.length;
+        for (var i = 0; i < 12; i++) {  
+            $("#dashboard").append("<div class='row"+i+"'>\n</div>");
+        }
         if (arrayLength>0) {
-            var currentRow = 0;
-            var currentColumn = 0;
-            for (var i = 0; i < arrayLength; i++) {
-                // charts contains the charts of the dashboard, sorted by row number then by column
-                if(currentRow!=charts[i]["row"]) {
-                    currentColumn = 0;
-                    currentRow = charts[i]["row"];
-                    html = html + "</div>\n";
-                    html= html + "<div class='row'>\n";
+            for (var i = 0; i < arrayLength; i++) {                 
+                if($(charts[i]["column"]).length==0) {
+                    html= "<div class='col-md-" + charts[i]["width"] + "' id='r"+charts[i]["row"] +"c" +charts[i]["column"] +"'>\n</div>";
+                    $("#row"+charts[i]["row"]+"\"").append(html);  
                 }
-                if(currentColumn!=charts[i]["column"]) {
-                    currentColumn = charts[i]["column"];
-                    html = html + "</div>\n";
-                    html= html + "<div class='col-md-" + charts[i]["width"] + "'>\n";
-                }
-                html = html + renderChart(charts[i],i);
+                html = renderChart(charts[i],i);
+	 	$("#r"+charts[i]["row"] +"c" +charts[i]["column"]+"\"").append(html);
             }
-            html = html + "</div>\n";
-            html = html + "</div>\n"; 
-            //console.log(html);
-        } else {
-            html = html + "<h6 style='margin-top: 40px; text-align: center;> Este dashboard no contiene ninguna gráfica. Añade una graciás al botón 'Añadir gráfica'</h6>";            
         }
     }
-    $("#dashboard").append(html);
 }   
