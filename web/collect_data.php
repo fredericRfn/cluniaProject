@@ -1,5 +1,7 @@
 <?php
 // Data retriever
+ini_set('memory_limit', '-1');
+set_time_limit(0);
 
 // Example of request:
 // SELECT * FROM Data JOIN Datarows ON datarow_id=id WHERE sensor_id=1 AND measured_at BETWEEN '2016-01-01' AND '2016-05-01';
@@ -14,8 +16,8 @@
         var $x; // for now, x is a day
         var $y; // for now, y is a sensor
         function Data($datarow) {
-            $this->x=$datarow['measured_at'];
-            $this->y=$datarow['data'];
+            $this->x=utf8_encode($datarow['measured_at']);
+            $this->y=utf8_encode($datarow['data']);
         }
     }
     $user_check = $_SESSION['user_id'];

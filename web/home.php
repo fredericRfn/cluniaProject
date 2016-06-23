@@ -102,7 +102,7 @@
                 </div>
             </div> 
            <div class="row">
-                <label>Sensor del cual imprimir datos:</label><select class="form-control" id="sensor_selector" onchange="fetchData()"></select>
+                <label>Sensor del cual imprimir datos:</label><select class="form-control" id="sensor_selector" onchange="setChartSensor()"></select>
            </div>
 		</div>
 		<div class="col-md-9" id="dashboard"> 

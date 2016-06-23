@@ -15,7 +15,6 @@ function exportToDatabase(redirect) {
         url: "store_dashboard.php", //Relative or absolute path to response.php file
         data : 'json=' + JSON.stringify(allJSONs[dashboardNumber]),
         success: function(msg) {
-            console.log(msg);
             importFromDatabase(redirect);
         }
     });      
@@ -31,7 +30,6 @@ function removeFromDatabase() {
         url: "remove_dashboard.php", //Relative or absolute path to response.php file
         data : 'dashboard_id=' + allJSONs[dashboardNumber]["id"],
         success: function(msg) {
-            alert(msg);
             importFromDatabase(true);
         }
         }); 
@@ -40,7 +38,7 @@ function removeFromDatabase() {
 
 // Creates a new empty dashboard and instantly store it in db
 function newDashboard() {
-    var newDashboard = JSON.parse("{\"id\":0, \"title\":\"Dashboard " + (allJSONs.length + 1) + "\",\"description\":\"Tu nuevo dashboard está creado\",\"is_default\":0,\"charts\":[]}");
+    var newDashboard = JSON.parse("{\"id\":0, \"title\":\"Dashboard " + (allJSONs.length + 1) + "\",\"description\":\"\",\"is_default\":0,\"charts\":[]}");
     dashboardNumber = allJSONs.length;
     allJSONs.push(newDashboard);
     $("#dashboard_selector").val(dashboardNumber);
@@ -79,10 +77,10 @@ function importFromDatabase(redirect) {
     $.ajax({
         type: "POST",
         url: "import.php",
-        success: function(data) {
-            allJSONs = JSON.parse(data)["dashboards"];
-            chartTypes = JSON.parse(data)["chartTypes"];
-            sensors = JSON.parse(data)["sensors"];
+        success: function(data2) {    
+            allJSONs = JSON.parse(data2)["dashboards"];
+            chartTypes = JSON.parse(data2)["chartTypes"];
+            sensors = JSON.parse(data2)["sensors"];
             if (redirect) {
                 dashboardNumber = allJSONs.length - 1;
                 switchDashboard(dashboardNumber);
@@ -125,7 +123,7 @@ function refreshSelectors() {
         $("#chartType_selector").prop('disabled', false);
         $("#sensor_selector").prop('disabled', false);
         $("#remove_chart").prop('disabled', false);
-        $("#sensor_selector").val(allJSONs[dashboardNumber]["charts"][currentChart]["sensor_id"]-1);
+        $("#sensor_selector").val(allJSONs[dashboardNumber]["charts"][currentChart]["sensor_id"]);
         $("#chartType_selector").val(allJSONs[dashboardNumber]["charts"][currentChart]["type"]);
     }
 }
@@ -204,8 +202,8 @@ function refreshParameters() {
         $("#chart_width").val(allJSONs[dashboardNumber]["charts"][currentChart]["width"]);
         $("#chart_from").val(allJSONs[dashboardNumber]["charts"][currentChart]["from"]);
         $("#chart_to").val(allJSONs[dashboardNumber]["charts"][currentChart]["to"]);
-        $("#sensor_selector").val(allJSONs[dashboardNumber]["charts"][currentChart]["sensor_id"]-1);
-        $("#chartType_selector").val(allJSONs[dashboardNumber]["charts"][currentChart]["type"] - 1);
+        $("#sensor_selector").val(allJSONs[dashboardNumber]["charts"][currentChart]["sensor_id"]);
+        $("#chartType_selector").val(allJSONs[dashboardNumber]["charts"][currentChart]["type"]);
     }
 }
 
@@ -249,25 +247,70 @@ function remove_chart() {
     switchDashboard(dashboardNumber);
 }
 
-
+function setChartSensor() {
+    allJSONs[dashboardNumber]["charts"][currentChart]["sensor_id"] = $("#sensor_selector").val();
+    refreshDashboard();
+}
 
 // FUNCTIONS USED TO DISPLAY THE DASHBOARD AND CONVERT JSON TO HTML
 
-function renderChart(chart) {
+function renderChart(chart, index) {
     var graph_html="graph content powered by chartjs";
+    // Compute limiters: index of min date, index of max date
+    //STEP 1: Iterate until find the min thanks to the Dates objects
+    //STEP 2: Iterate until find the max
+    //STEP 3: Put a limitation to the number of points plotted spacing the points regularly
+    // (up to 50-100 points per graph would be nice)
     if(chart["sensor_id"]>0) {  
         if(chart["type"]==1) {
-            graph_html="<div><table><tr><th>Fecha</th><th>"+ sensors[chart['sensor_id']]['name'] + "</th></tr></table></div>";
+            graph_html="<div><table><tr><th>Fecha</th><th>"+ sensors[chart['sensor_id']-1]['name'] + "</th></tr></table></div>";
             graph_html=graph_html + "<div style='overflow:auto;height:"+chart["height"]+"px'><table>";           
             data_sensor=data_collection[chart['sensor_id']];
 
             //Limiters:
-            //STEP 1:
+            //STEP 1: Iterate until find the min thanks to the Dates objects
+            //STEP 2: Iterate until find the max
+            //STEP 3: Put a limitation to the number of points plotted spacing the points regularly, that the user can adjust
+            // (up to 50-100 points per graph would be nice)
             for(i = 0; i < 50; i++) {        
                 graph_html = graph_html + "<tr><td>" + data_sensor[i]['x'];
                 graph_html = graph_html + "</td><td>" + data_sensor[i]['y'] + "</td></tr>";
             }
             graph_html = graph_html + "</table></div>";
+        }
+        if(chart["type"]==2) {
+           $("#dashboard").append("<canvas id='chart" + index +"' width='450' height='200'></canvas>");
+          // Get the context of the canvas element we want to select
+          var datachart = {
+            labels: ["January", "February", "March", "April", "May", "June", "July"],
+            datasets: [
+              {
+                label: "My First dataset",
+                fillColor: "rgba(220,220,220,0.2)",
+                strokeColor: "rgba(220,220,220,1)",
+                pointColor: "rgba(220,220,220,1)",
+                pointStrokeColor: "#fff",
+                pointHighlightFill: "#fff",
+                pointHighlightStroke: "rgba(220,220,220,1)",
+                data: [65, 59, 80, 81, 56, 55, 40]
+              },
+              {
+                label: "My Second dataset",
+                fillColor: "rgba(151,187,205,0.2)",
+                strokeColor: "rgba(151,187,205,1)",
+                pointColor: "rgba(151,187,205,1)",
+                pointStrokeColor: "#fff",
+                pointHighlightFill: "#fff",
+                pointHighlightStroke: "rgba(151,187,205,1)",
+                data: [28, 48, 40, 19, 86, 27, 90]
+              }
+            ]
+          };
+          var ctx = document.getElementById("chart").getContext("2d");
+          // Instantiate a new chart using 'data' (defined below)
+          var chart = new Chart(ctx).Line(datachart);
+          graph_html=document.getElementById("chart" + index).prop('outerHTML');
+          $("#dashboard").empty();
         }
     }
     var result = "<div class='graphbox' style='height:" + chart["height"] + "px'>\n";
@@ -304,7 +347,7 @@ function refreshDashboard() {
                     html = html + "</div>\n";
                     html= html + "<div class='col-md-" + charts[i]["width"] + "'>\n";
                 }
-                html = html + renderChart(charts[i]);
+                html = html + renderChart(charts[i],i);
             }
             html = html + "</div>\n";
             html = html + "</div>\n"; 
@@ -314,4 +357,4 @@ function refreshDashboard() {
         }
     }
     $("#dashboard").append(html);
-}
+}   

@@ -1,4 +1,6 @@
 <?php
+    ini_set('memory_limit', '-1');
+set_time_limit(0);
     include("dao.php");
     include("config.php");
     session_start();
@@ -12,6 +14,7 @@
     $dashboards = array();
     $sensors = array();
     $chartTypes = array();
+    $msg="";
     if ($result->num_rows > 0) {
         $sqlDashboard = "SELECT * FROM Dashboards WHERE user_id=".$user_check ;
         $resultDashboard = $conn->query($sqlDashboard);
@@ -33,7 +36,10 @@
 	    $chartType = new ChartType($chartTypeRow);
             array_push($chartTypes, $chartType);
         }
+        $msg=json_encode(array("sensors"=>$sensors, "chartTypes"=>$chartTypes, "dashboards"=>$dashboards));
+    } else {
+    	$msg="Problem...";
     }
     $conn->close();
-    echo(json_encode(array("sensors"=>$sensors, "chartTypes"=>$chartTypes, "dashboards"=>$dashboards)));
+    echo($msg);
 ?>

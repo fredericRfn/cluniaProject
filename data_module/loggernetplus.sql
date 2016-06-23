@@ -92,5 +92,5 @@ CREATE TABLE Charts (
 ALTER TABLE Data ADD INDEX (sensor_id);
 ALTER TABLE Data ADD INDEX (datarow_id);
 INSERT INTO ChartTypes(name, description, chartJS_type, min_params,max_params) VALUES ('Tabla','Presenta los datos brutos en tabla',NULL,1,5);
-INSERT INTO ChartTypes(name, description, chartJS_type, min_params,max_params) VALUES ('Dispersión - Puntos','Dibuja los puntos',NULL,1,5);
-INSERT INTO ChartTypes(name, description, chartJS_type, min_params,max_params) VALUES ('Dispersión - Curva','Dibuja los puntos y los vincula',NULL,1,5);
+INSERT INTO ChartTypes(name, description, chartJS_type, min_params,max_params) VALUES ('Dispersion - Puntos','Dibuja los puntos',NULL,1,5);
+INSERT INTO ChartTypes(name, description, chartJS_type, min_params,max_params) VALUES ('Dispersion - Curva','Dibuja los puntos y los vincula',NULL,1,5);

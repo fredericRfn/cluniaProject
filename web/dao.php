@@ -13,8 +13,8 @@
         var $sensor_id;
         function Chart($sqlRow) {
             //$this->id=$sqlRow['id'];
-            $this->title=$sqlRow['title'];
-            $this->description=$sqlRow['description'];
+            $this->title=utf8_encode($sqlRow['title']);
+            $this->description=utf8_encode($sqlRow['description']);
             $this->type=$sqlRow['type'];
             $this->row=$sqlRow['row_num'];
             $this->column=$sqlRow['column_num'];
@@ -35,8 +35,8 @@
         var $charts = array();
         function Dashboard($sqlRow, $chartsSqlRow) {
             $this->id=$sqlRow['id'];
-            $this->title=$sqlRow['title'];
-            $this->description=$sqlRow['description'];
+            $this->title=utf8_encode($sqlRow['title']);
+            $this->description=utf8_encode($sqlRow['description']);
             $this->number=$sqlRow['display_order'];
             $this->user_id=$sqlRow['user_id'];
             $this->is_default=$sqlRow['is_default'];
@@ -57,7 +57,7 @@
         function Sensor($sqlRow) {
             $this->id=$sqlRow['id'];
             $this->datalogger_id=$sqlRow['datalogger_id'];
-            $this->name=$sqlRow['name'];
+            $this->name=utf8_encode($sqlRow['name']);
             $this->unit=$sqlRow['unit'];
             $this->operation=$sqlRow['operation'];
             $this->detected_at=$sqlRow['detected_at'];
@@ -69,8 +69,8 @@
         var $description;
         function ChartType($sqlRow) {
             $this->id=$sqlRow['id'];
-            $this->name=$sqlRow['name'];
-            $this->description=$sqlRow['description'];
+            $this->name=utf8_encode($sqlRow['name']);
+            $this->description=utf8_encode($sqlRow['description']);
         }
     }
 ?>
