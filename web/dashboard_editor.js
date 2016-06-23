@@ -1,11 +1,12 @@
 var allJSONs = [];
 var dashboardNumber = -1; // -1 means the display is the message inviting to create a new dashboard
 var currentChart = -1; // Same logic: -1 = no graph selected 
-var chartTypes = [];
-var sensors = [];
+var chartTypes = []
+var sensors = []; //JSON containing the sensors and its information
+var data_collection = JSON.parse("{}"); // JSON containing the actual data, creating entries only for data actually requested by changing the sensor field
 
 $(function() {
-      importFromDatabase(true); // Loading all dashboards of the logged user into allJSONs, sensors in the sensors var and chartTypes in chartTypes
+      fetchData(); // Loading all dashboards of the logged user into allJSONs, sensors in the sensors var and chartTypes in chartTypes
 });
 function exportToDatabase(redirect) {
     $.ajax({
@@ -51,15 +52,22 @@ function switchDashboardFromSelector() { // By clicking on the dropdown list
         switchDashboard($("#dashboard_selector").val());
 }
 
+function switchChartFromSelector() { // By clicking on the dropdown list
+        currentChart=$("#chart_selector").val();       
+        refreshParameters();
+}
+
 function switchDashboard(value) {
     dashboardNumber = value; // Obtained thanks to the id of the item selected
     if (dashboardNumber < 0) {
         currentChart = -1;
     }
     else {
-        if (allJSONs[dashboardNumber]["charts"].length <= currentChart) {
-            currentChart = -1;
-        }
+            if(allJSONs[dashboardNumber]["charts"].length == 0) {    
+                currentChart = -1;
+            } else {
+                currentChart = 0;
+            }
     }
     refreshSelectors();
     refreshChartsSelectors();
@@ -83,6 +91,17 @@ function importFromDatabase(redirect) {
     });
 }
 
+function fetchData() {
+        $.ajax({
+            type: "POST",
+            url: "collect_data.php",
+            success: function(data) {
+                data_collection = JSON.parse(data);
+                importFromDatabase(true);
+            }
+        });
+}
+
 function refreshSelectors() {
     $("#dashboard_selector").empty();
     for (i = 0; i < allJSONs.length; i++) { 
@@ -90,15 +109,16 @@ function refreshSelectors() {
     }
     $("#dashboard_selector").val(dashboardNumber);
     $("#sensor_selector").empty();
-    for (i = 0; i < sensors.length; i++) { 
-        $("#sensor_selector").append("<option value=" + i + ">"+ sensors[i]["name"] +"</option>");
+    for (i = 0; i < sensors.length; i++) {
+        $("#sensor_selector").append("<option value=" + (i+1) + ">"+ sensors[i]["name"] +"</option>");
     }
     $("#chartType_selector").empty();
     for (i = 0; i < chartTypes.length; i++) { 
-        $("#chartType_selector").append("<option value=" + i + ">"+ chartTypes[i]["name"] +"</option>");
+        $("#chartType_selector").append("<option value=" + (i+1) + ">"+ chartTypes[i]["name"] +"</option>");
     }
     if (currentChart<0) {
         $("#chartType_selector").prop('disabled', true);
+        $("#chartType_selector").val(1);
         $("#sensor_selector").prop('disabled', true);
         $("#remove_chart").prop('disabled', true);
     } else {
@@ -203,15 +223,23 @@ function refreshDashboardParam(attribute, selector) {
     allJSONs[dashboardNumber][attribute] = $(selector).val();
     refreshDashboard();
 }
-
+function refreshChartTitle() {
+    allJSONs[dashboardNumber]["charts"][currentChart]["title"] = $("#chart_title").val();
+    $("#chart_selector").empty();
+    for (i = 0; i < allJSONs[dashboardNumber]["charts"].length; i++) { 
+        $("#chart_selector").append("<option value=" + i + ">"+ allJSONs[dashboardNumber]["charts"][i]["title"] +"</option>");
+    }
+    $("#chart_selector").val(currentChart);
+    refreshDashboard();
+}
 function refreshChartParam(attribute, selector) {
     allJSONs[dashboardNumber]["charts"][currentChart][attribute] = $(selector).val();
     refreshDashboard();
 }
 
 function add_chart() {
-    allJSONs[dashboardNumber]["charts"].push(JSON.parse("{\"title\":\"Nueva Gráfica\",\"description\":\"Comenta tu gráfica\",\"row\":1,\"column\":1,\"width\":12,\"height\":5, \"from\":\"2015-01-01\",\"to\":\"2016-01-01\",\"type\":1, \"sensor_id\":1}"));
-    currentChart = allJSONs[dashboardNumber]["charts"].length - 1;  
+    allJSONs[dashboardNumber]["charts"].push(JSON.parse("{\"title\":\"Nueva Gráfica\",\"description\":\"Comenta tu gráfica\",\"row\":1,\"column\":1,\"width\":12,\"height\":100, \"from\":\"2015-01-01\",\"to\":\"2016-01-01\",\"type\":1, \"sensor_id\":1}"));
+    currentChart = allJSONs[dashboardNumber]["charts"].length - 1;
     switchDashboard(dashboardNumber);
 }
 
@@ -226,10 +254,26 @@ function remove_chart() {
 // FUNCTIONS USED TO DISPLAY THE DASHBOARD AND CONVERT JSON TO HTML
 
 function renderChart(chart) {
-    var result = "<div class='graphbox' style='height:" + chart["height"] + "%'>\n";
+    var graph_html="graph content powered by chartjs";
+    if(chart["sensor_id"]>0) {  
+        if(chart["type"]==1) {
+            graph_html="<div><table><tr><th>Fecha</th><th>"+ sensors[chart['sensor_id']]['name'] + "</th></tr></table></div>";
+            graph_html=graph_html + "<div style='overflow:auto;height:"+chart["height"]+"px'><table>";           
+            data_sensor=data_collection[chart['sensor_id']];
+
+            //Limiters:
+            //STEP 1:
+            for(i = 0; i < 50; i++) {        
+                graph_html = graph_html + "<tr><td>" + data_sensor[i]['x'];
+                graph_html = graph_html + "</td><td>" + data_sensor[i]['y'] + "</td></tr>";
+            }
+            graph_html = graph_html + "</table></div>";
+        }
+    }
+    var result = "<div class='graphbox' style='height:" + chart["height"] + "px'>\n";
     result = result + "<div class='title'>\n" + chart["title"] + "</div>\n";
     result = result + "<div class='description'>\n" + chart["description"] + "</div>\n";
-    result = result + "<div class='graph'>\n" + "graph content powered by chartjs" + "</div>\n";
+    result = result + "<div class='graph'>\n" + graph_html + "</div>\n";
     result = result + "</div>";
     return result;
 }

@@ -45,7 +45,7 @@
                 <button class="btn btn-default" id="remove_chart" onclick="remove_chart()">Eliminar esta gráfica</button>  
             </div>
             <div class="row">
-                <label>Gráficas del dashboard:</label><select class="form-control" id="chart_selector"></select>  
+                <label>Gráficas del dashboard:</label><select class="form-control" id="chart_selector" onchange="switchChartFromSelector()"></select>  
             </div>
             <div class="row bordered"></div> 
             <div class="row">
@@ -54,7 +54,7 @@
                     <label>Descripción</label>
                 </div>
                 <div class="col-md-8 inlined">
-                    <input type ="text" class ="form-control" id="chart_title" oninput="refreshChartParam('title', '#chart_title')">
+                    <input type ="text" class ="form-control" id="chart_title" oninput="refreshChartTitle()">
                     <input type ="text" class ="form-control" id="chart_description" oninput="refreshChartParam('description', '#chart_description')">
                 </div>
             </div> 
@@ -90,7 +90,7 @@
                     <label>Desde</label>
                 </div>
                 <div class="col-md-8 inlined">
-                    <input type ="text" class ="form-control" id="chart_from">
+                    <input type ="date" class ="form-control" id="chart_from" oninput="refreshChartFrom()">
                 </div>
             </div>
             <div class="row">
@@ -98,11 +98,11 @@
                     <label>Hasta</label>
                 </div>
                 <div class="col-md-8 inlined">
-                    <input type ="text" class ="form-control" id="chart_to">
+                    <input type ="date" class ="form-control" id="chart_to" oninput="refreshChartTo()">
                 </div>
             </div> 
            <div class="row">
-                <label>Sensor del cual imprimir datos:</label><select class="form-control" id="sensor_selector"></select>
+                <label>Sensor del cual imprimir datos:</label><select class="form-control" id="sensor_selector" onchange="fetchData()"></select>
            </div>
 		</div>
 		<div class="col-md-9" id="dashboard"> 
