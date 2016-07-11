@@ -1,9 +1,6 @@
 <?php
 
-define('DB_SERVER', 'localhost');
-define('DB_USERNAME', 'root');
-define('DB_PASSWORD', 'root');
-define('DB_DATABASE', 'loggernetplus');
+include("../etc/config.php");
 define('ROLE_USER', 0);
 define('ROLE_ADMIN',1);
 

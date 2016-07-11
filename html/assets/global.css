@@ -197,3 +197,24 @@ th {
 .newrow {
     background-color: #CCCCCC;
 }
+
+.header-panel {
+    background-color: #CCCCCC;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 30px;
+    padding-left: 20px;
+    width: 80%;
+}
+.panel {
+    border: 1px solid #CCCCCC;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 20px;
+    text-align: left !important;
+    width: 80%;
+}
+
+.admin-lbl{
+    width: 200px;
+}

@@ -1,1 +1,0 @@
-<div class="row separator">Security parameters</div>

@@ -6,7 +6,6 @@
             <li><a href="../admin/connections.php">Connections</a></li>
             <li><a href="../admin/importation.php">Importation</a></li>
             <li><a href="../admin/backup.php">Backup</a></li>
-            <li><a href="../admin/security.php">Security</a></li>
         </ul>
     </div>
     <div class="btn-group">
